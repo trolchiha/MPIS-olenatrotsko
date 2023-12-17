@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+{% block title %}Завдання проєкту{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Завдання</h2>
+        <div class="row">
+            {% for task in tasks %}
+                <div class="col-md-8 mb-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-text">{{ forloop.counter }}. Назва: {{ task.name }}</h5>
+                            <p class="card-text">Волонтер: {{ task.volunteer.username }}</p>
+                            <a
+                            class="btn btn-warning"
+                            href="{% url 'view_task' task.id %}"
+                            >
+                            Детальніше
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+            <p>Завдань не знайдено.</p>
+            {% endfor %}
+        </div>
+</div>
+{% endblock %}

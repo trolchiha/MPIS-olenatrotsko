@@ -1,0 +1,37 @@
+{% extends 'main/base.html' %} 
+{% block title %} Головна {% endblock %} 
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+      <div class="col-md-6">
+          <h1 class="display-4">Волонтерська Платформа</h1>
+          <p class="lead">Ласкаво просимо до нашої платформи. Тут ви можете легко керувати проєктами та волонтерами, відслідковувати завдання та отримувати пожертви від благодійників.</p>
+          <a href="{% url 'sign_up_volunteer'%}" class="btn btn-primary btn-lg">Долучитися до нас</a>
+      </div>
+      <div class="col-md-6">
+          <img src="https://www.maidanmuseum.org/sites/default/files/styles/large/public/2-site-news-rdm_volunteer-2-2.png?itok=zXV1NVvU" class="img-fluid" alt="Волонтери">
+      </div>
+  </div>
+
+  <hr class="my-5">
+
+  <div class="row">
+      <div class="col-md-4">
+          <h2>Про нас</h2>
+          <p>Платформа забезпечує ефективне управління волонтерами та прийом пожертв від благодійників.
+            Ми збираємо ресурси для надання допомоги тим, хто цього потребує.
+          </p>
+      </div>
+      <div class="col-md-4">
+          <h2>Наші цілі</h2>
+          <p>Ми прагнемо досягти високої ефективності в управлінні волонтерами, створюючи дружнє співтовариство та реалізуючи проекти, спрямовані на допомогу тим, хто цього потребує.
+          </p>
+      </div>
+      <div class="col-md-4">
+          <h2>Волонтерство та Пожертви</h2>
+          <p>Приєднуйтеся до нашого волонтерського колективу та допомагайте тим, хто потребує вашої підтримки. Підтримай фінансово.
+          </p>
+      </div>
+  </div>
+</div>
+{% endblock %}

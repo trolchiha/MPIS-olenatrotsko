@@ -1,0 +1,50 @@
+{% extends 'main/base.html' %} 
+{% block title %} Заявка {% endblock %} 
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>{{ application.project.name }}</h2>
+                </div>
+                <div class="card-body">
+                    <p><strong>Ім'я:</strong> {{ application.applicant.first_name }}</p>
+                    <p><strong>Прізвище:</strong> {{ application.applicant.last_name }}</p>
+                    <p><strong>Дата народження:</strong> {{ volunteer.birth_date }}</p>
+                    <p><strong>Місцезнаходження:</strong> {{ volunteer.location }}</p>
+                    <p><strong>Пошта:</strong> {{ application.applicant.email }}</p>
+                    <p><strong>Номер телефону:</strong> {{ volunteer.phone_number }}</p>
+                    <p><strong>Примітки:</strong> {{ application.application_text }}</p>
+                </div>
+                {% if user == application.project.coordinator or perms.main.update_project %}
+                <div class="card-footer d-flex flex-row justify-content-left">   
+                    <form method="post">
+                        {% csrf_token %}
+                        <button
+                        type="submit"
+                        class="btn btn-success mx-1"
+                        name="application-status"
+                        value="True"
+                        >
+                        Прийняти
+                        </button>
+                    </form>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button
+                        type="submit"
+                        class="btn btn-danger mx-1"
+                        name="application-status"
+                        value="False"
+                        >
+                        Відхилити
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'main/base.html' %} 
+{% block title %} Подати заявку {% endblock %} 
+{% load crispy_forms_tags %} {% block content %}
+<form method="post">
+    <h3 class="my-4"><strong>Проєкт: {{ project.name }}</strong> </h3>
+  {% csrf_token %}
+  {{form|crispy}}
+  <button type="submit" class="btn btn-success" >Підтвердити</button>
+</form>
+{% endblock %}

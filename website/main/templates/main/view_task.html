@@ -1,0 +1,35 @@
+{% extends 'main/base.html' %} 
+{% block title %} Завдання {% endblock %} 
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>{{ task.project.name }}</h2>
+                </div>
+                <div class="card-body">
+                    <p><strong>Назва:</strong> {{ task.name }}</p>
+                    <p><strong>Опис:</strong> {{ task.description }}</p>
+                    <p><strong>Дата початку:</strong> {{ task.start_date }}</p>
+                    <p><strong>Дата закінчення:</strong> {{ task.end_date }}</p>
+                    <p><strong>Пошта координатора:</strong> {{ task.project.coordinator.email }}</p>
+                </div>
+                <div class="card-footer text-left">   
+                    <form method="post">
+                        {% csrf_token %}
+                        <button
+                        type="submit"
+                        class="btn btn-success"
+                        name="application-status"
+                        value="True"
+                        >
+                        Позначити як виконане
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

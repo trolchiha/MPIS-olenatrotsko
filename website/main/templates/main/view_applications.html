@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+{% block title %}Заявки волонтерів{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Заявки волонтерів</h2>
+        <div class="row">
+            {% for application in applications %}
+            {% if application.is_approved == False %}
+                <div class="col-md-8 mb-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Проєкт: {{ application.project.name }}</h5>
+                            <p class="card-text">Волонтер: {{ application.applicant.username }}</p>
+                            <a 
+                            class="btn btn-warning"
+                            href="{% url 'view_application' application.id %}">
+                            Детальніше
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% empty %}
+            <p>Заявок не знайдено.</p>
+            {% endfor %}
+        </div>
+</div>
+{% endblock %}

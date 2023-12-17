@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %} 
+{% block title %} Створити завдання {% endblock %} 
+{% load crispy_forms_tags %} {% block content %}
+<form method="post">
+    <p><strong>Проєкт:</strong> {{ project.name }}</p>
+    <p><strong>Волонтер:</strong> {{ project.name }}</p>
+  {% csrf_token %}
+  {{form|crispy}}
+  <button type="submit" class="btn btn-success">Призначити</button>
+</form>
+{% endblock %}
