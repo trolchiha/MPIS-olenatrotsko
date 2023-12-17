@@ -1,4 +1,4 @@
-# Task Manager
+# Management system for volunteer's projects
 This repo works with `Python v3.11` and up.
 
 ## Setup & Installation
