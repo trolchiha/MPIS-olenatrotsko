@@ -58,3 +58,4 @@ class TaskForm(forms.ModelForm):
             'start_date': 'Дата початку',
             'end_date': 'Дата закінчення'
         }
+        

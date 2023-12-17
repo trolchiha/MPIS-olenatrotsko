@@ -9,11 +9,11 @@
                     <h2>{{ project.name }}</h2>
                 </div>
                 <div class="card-body">
-                    <p><strong>Description:</strong> {{ project.description }}</p>
-                    <p><strong>Start Date:</strong> {{ project.start_date }}</p>
-                    <p><strong>End Date:</strong> {{ project.end_date }}</p>
-                    <p><strong>Location:</strong> {{ project.location }}</p>
-                    <p><strong>Work Type:</strong> {{ project.work_type }}</p>
+                    <p><strong>Опис:</strong> {{ project.description }}</p>
+                    <p><strong>Дата початку:</strong> {{ project.start_date }}</p>
+                    <p><strong>Дата закінчення:</strong> {{ project.end_date }}</p>
+                    <p><strong>Місце проведення:</strong> {{ project.location }}</p>
+                    <p><strong>Тип робіт:</strong> {{ project.work_type }}</p>
                 </div>
                 {% if user == project.coordinator or perms.main.update_project %}
                 <div class="card-footer d-flex flex-row justify-content-left">

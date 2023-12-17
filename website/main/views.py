@@ -1,8 +1,8 @@
 import datetime
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth import login, logout
 from django.contrib.auth.models import User, Group
-from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, permission_required
 from django.urls import reverse
 from .models import Project, ProjectVolunteer, Task, Volunteer, Application
@@ -79,15 +79,6 @@ def create_project(request):
         form = ProjectForm()
     return render(request, 'main/create_project.html', {'form': form})
 
-def view_project(request, project_id):
-    project = get_object_or_404(Project, id=project_id)
-    if request.user.is_authenticated:
-        application = Application.objects.filter(project=project, applicant=request.user).first()
-    else:
-        application = None
-    return render(request, 'main/view_project.html', {'project': project, 'application': application})
-    
-
 @login_required(login_url='/login')
 @permission_required("main.add_project", login_url="/login", raise_exception=True)
 def update_project(request, project_id):
@@ -107,7 +98,37 @@ def update_project(request, project_id):
 
     return render(request, 'main/update_project.html', {'form': form, 'project': project})
 
+def view_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    if request.user.is_authenticated:
+        application = Application.objects.filter(project=project, applicant=request.user).first()
+    else:
+        application = None
+    return render(request, 'main/view_project.html', {'project': project, 'application': application})
+
+def search_project(request):
+    if request.method == "POST":
+        search_text = request.POST['search_text']
+    else:
+        search_text = ''
+    projects = Project.objects.filter(name__contains=search_text)
+    return render(request, 'main/home.html', {'projects': projects})
+
 @login_required(login_url='/login')
+@permission_required("main.add_project", login_url="/login", raise_exception=True)
+def view_project_volunteers(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    volunteers = ProjectVolunteer.objects.filter(project=project)
+    if request.method == "POST":
+        volunteer_id = request.POST.get("volunteer-id")
+        if volunteer_id:
+            volunteer = ProjectVolunteer.objects.filter(id=volunteer_id).first()
+            volunteer.delete()
+            return redirect('view_project_volunteers', project_id=project_id)
+    return render(request, 'main/view_project_volunteers.html', {'volunteers': volunteers, 'project': project})
+
+@login_required(login_url='/login')
+@permission_required("main.add_application", login_url="/login", raise_exception=True)
 def create_application(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == 'POST':
@@ -131,14 +152,6 @@ def delete_application(request, application_id):
         return HttpResponseForbidden("You don't have permission to delete this application.")
     application.delete()
     return redirect('view_applications')
-
-def search_project(request):
-    if request.method == "POST":
-        search_text = request.POST['search_text']
-    else:
-        search_text = ''
-    projects = Project.objects.filter(name__contains=search_text)
-    return render(request, 'main/home.html', {'projects': projects})
 
 @login_required(login_url='/login')
 @permission_required("main.add_project", login_url="/login", raise_exception=True)
@@ -165,19 +178,6 @@ def view_application(request, application_id):
             application.delete()
         return redirect('view_applications')
     return render(request, 'main/view_application.html', {'application': application, 'volunteer': volunteer})
-
-@login_required(login_url='/login')
-@permission_required("main.add_project", login_url="/login", raise_exception=True)
-def view_project_volunteers(request, project_id):
-    project = get_object_or_404(Project, id=project_id)
-    volunteers = ProjectVolunteer.objects.filter(project=project)
-    if request.method == "POST":
-        volunteer_id = request.POST.get("volunteer-id")
-        if volunteer_id:
-            volunteer = ProjectVolunteer.objects.filter(id=volunteer_id).first()
-            volunteer.delete()
-            return redirect('view_project_volunteers', project_id=project_id)
-    return render(request, 'main/view_project_volunteers.html', {'volunteers': volunteers, 'project': project})
 
 @login_required(login_url='/login')
 @permission_required("main.add_project", login_url="/login", raise_exception=True)
